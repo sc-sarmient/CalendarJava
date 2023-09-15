@@ -22,7 +22,7 @@ public class ProyTiempo {
         }
     }
 
-    // Función para verificar si un año es bisiesto, en booleano.
+    // Función para verificar si un año es bisiesto, en booleano. Para poder usarlo en situaciones que impliquen if
     public static boolean esAñoBisiesto(int año) {
         if ((año % 4 == 0 && año % 100 != 0) || (año % 400 == 0)) {
             return true; // Es bisiesto
@@ -94,11 +94,14 @@ public class ProyTiempo {
 
     }
 
-    //Funcion OPCION 3 - Calcula que dia cae una fecha. Hacemos uso de Zellers formula
+    //Funcion OPCION 3 - Calcula que dia cae una fecha. Hacemos uso de la formula Zeller 
     public static String CalcularDiaSemana(int dia, int mes, int año) {
         String[] diasSemana = {"Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"};
 
-        int a = (14 - mes) / 12;
+        /*y representa el año, m representa el mes, y d representa el día de la semana.
+        La fórmula de Zeller se utiliza para calcular d. Esta fórmula tiene en cuenta 
+        el día, el mes y el año, y devuelve un número entero que representa el día de la semana (0 para domingo, 1 para lunes, etc.).*/
+        int a = (14 - mes) / 12; //Esto ajusta el mes de enero y febrero al año anterior y los demás meses al año actual.
         int y = año - a;
         int m = mes + 12 * a - 2;
         int d = (dia + y + y / 4 - y / 100 + y / 400 + (31 * m) / 12) % 7;
@@ -137,7 +140,7 @@ public class ProyTiempo {
                 maxDiasEnMes1 = 29;
             }
 
-            diferenciaDias = diferenciaDias + maxDiasEnMes1 - 2;
+            diferenciaDias = diferenciaDias + maxDiasEnMes1 - 1;
         }
 
         // Ajusta la diferencia de meses si es negativa
@@ -146,7 +149,7 @@ public class ProyTiempo {
             diferenciaMeses = diferenciaMeses + 12;
         }
 
-        System.out.println("Diferencia: " + Math.abs(diferenciaAños) + " años, " + diferenciaMeses + " meses y " + diferenciaDias + " días.");
+        System.out.println("Diferencia: " + Math.abs(diferenciaAños) + " años, " + diferenciaMeses + " meses y " + Math.abs(diferenciaDias) + " días.");
     }
 
     // Funcion opcion 5 - Calcula cuantos dias han transcurrido de una fecha a otra
@@ -183,7 +186,11 @@ public class ProyTiempo {
             for (int i = 1; i < mes2; i++) {
                 diasTranscurridos = diasTranscurridos + diasPorMes[i];
             }
-            diasTranscurridos = diasTranscurridos + dia2;
+            if (esAñoBisiesto(año1) || esAñoBisiesto(año2) && mes1 <= 2) {
+                diasTranscurridos = diasTranscurridos + dia2 + 1;
+            } else {
+                diasTranscurridos = diasTranscurridos + dia2;
+            }
             return diasTranscurridos;
         }
     }
@@ -212,6 +219,7 @@ public class ProyTiempo {
         } else if (opcion == 2) {
             System.out.print("Ingrese el año: ");
             int añoCalendario = leer.nextInt();
+            System.out.println("==============================================");
             System.out.println("\t\tCALENDARIO DEL AÑO " + añoCalendario);
             for (int i = 1; i <= 12; i++) {
                 ImprimeMes(i, añoCalendario);
@@ -239,6 +247,8 @@ public class ProyTiempo {
             System.out.println("==============================================");
             CalcularDiferenciaFechas(dia1, mes1, año1, dia2, mes2, año2);
         } else if (opcion == 5) {
+            System.out.println("¡AVISO! INGRESE LA FECHA MAS ANTIGUA PRIMERO");
+            System.out.println("");
             System.out.print("Ingrese la primera fecha (dia mes año): ");
             int dia1 = leer.nextInt();
             int mes1 = leer.nextInt();
@@ -251,24 +261,28 @@ public class ProyTiempo {
 
             int diasEntreFechas = CalcularDiferenciaDias(dia1, mes1, año1, dia2, mes2, año2);
             System.out.println("==============================================");
-            System.out.println("Número de días entre las dos fechas: " + Math.abs(diasEntreFechas));
+            System.out.println("Número de días entre las dos fechas: " + Math.abs(diasEntreFechas) + " dias");
 
         } else if (opcion == 6) {
             System.out.println("Saliendo del programa.");
-            return; // Salir de la función y, por lo tanto, del programa
+            // Salir de la función y, por lo tanto, del programa
+
         } else {
             System.out.println("Opción no válida. Intente nuevamente.");
         }
+
     }
 
     public static void main(String[] args) {
+
         System.out.println("==============================================");
-        Scanner OpcionMenu = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         System.out.println("\t" + "Hecho por: Jose David Nuñez");
         System.out.println("==============================================");
         System.out.println("\t" + "  BIENVENIDO AL CALENDARIO");
         System.out.println("==============================================");
-        mostrarMenu(OpcionMenu);
+        mostrarMenu(sc);
 
     }
+
 }
