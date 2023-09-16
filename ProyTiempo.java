@@ -31,7 +31,7 @@ public class ProyTiempo {
         }
     }
 
-    //Funcion para Calcular el dia de inicio de la semanadel año
+    //Funcion para Calcular el dia de inicio de la semana del año
     public static int CalculaDSIA(int año) {
         // Fórmula para calcular el día de inicio de la semana del año
         int a = año - 1; // Año base (1 d.C.) es 1 año antes del año dado
@@ -44,6 +44,7 @@ public class ProyTiempo {
         a / 400 nuevamente ajusta el cálculo teniendo en cuenta que algunos años múltiplos de 400 sí son bisiestos. 
         Entonces, se suma la cantidad de años múltiplos de 400 en el rango.
          */
+
         int dsia = (a + b) % 7;
 
         // Ajusta el valor para que 0 sea domingo, 1 sea lunes, 2 sea martes, etc.
@@ -219,7 +220,6 @@ public class ProyTiempo {
         } else if (opcion == 2) {
             System.out.print("Ingrese el año: ");
             int añoCalendario = leer.nextInt();
-            System.out.println("==============================================");
             System.out.println("\t\tCALENDARIO DEL AÑO " + añoCalendario);
             for (int i = 1; i <= 12; i++) {
                 ImprimeMes(i, añoCalendario);
@@ -269,6 +269,7 @@ public class ProyTiempo {
 
         } else {
             System.out.println("Opción no válida. Intente nuevamente.");
+            mostrarMenu(leer);
         }
 
     }
@@ -286,3 +287,4 @@ public class ProyTiempo {
     }
 
 }
+
